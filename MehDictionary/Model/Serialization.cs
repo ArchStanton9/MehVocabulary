@@ -25,6 +25,10 @@ namespace MehDictionary.Model
             {
                 
             }
+            catch (DirectoryNotFoundException)
+            {
+
+            }
             return translations;
         }
 
