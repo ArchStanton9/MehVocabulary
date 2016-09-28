@@ -1,0 +1,68 @@
+﻿<Window
+    x:Class="MehDictionary.VocabularyView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MehDictionary.ViewModel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:util="clr-namespace:MehDictionary.Util"
+    Title="VocabularyView"
+    Height="480"
+    ResizeMode="CanResizeWithGrip"
+    mc:Ignorable="d" Width="350">
+    <Window.DataContext>
+        <local:VocabularyViewModel />
+    </Window.DataContext>
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    x:Name="main_text_box"
+                    Width="150"
+                    Height="20"
+                    Margin="10,10,10,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    
+                    Text="{Binding NewWord}" />
+                <Button
+                    x:Name="add_button"
+                    Margin="10,10,10,10"
+                    Command="{Binding AddClick}"
+                    Content="Добавить" />
+            </StackPanel>
+            <Grid>
+                <ListView util:GridViewSort.AutoSort="True" Margin="10,10,10,10" ItemsSource="{Binding Items}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Edit"/>
+                            <MenuItem Header="Delete"
+                                      Command="{Binding RemoveItem}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.Text}"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn
+                                util:GridViewSort.PropertyName="Text"
+                                Width="100"
+                                DisplayMemberBinding="{Binding Text}"
+                                Header="Слово" />
+                            <GridViewColumn
+                                util:GridViewSort.PropertyName="Options[0]"
+                                Width="100"
+                                DisplayMemberBinding="{Binding Options[0]}"
+                                Header="Перевод"
+                                />
+                            <GridViewColumn
+                                util:GridViewSort.PropertyName="TranslationDate"
+                                Width="100"
+                                DisplayMemberBinding="{Binding TranslationDate}"
+                                Header="Дата добавления" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
