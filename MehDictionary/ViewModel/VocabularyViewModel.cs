@@ -107,7 +107,8 @@ namespace MehDictionary.ViewModel
 
         void SaveFile()
         {
-            PDFCreator.WritePDF(data.Translations, "HelloWorld.pdf");
+            data.Sort();
+            PDFCreator.WritePDF(data.Translations, "Тысячи.pdf");
         }
 
         #endregion

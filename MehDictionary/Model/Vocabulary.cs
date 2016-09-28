@@ -35,5 +35,10 @@ namespace MehDictionary.Model
             var index = Translations.FindLastIndex(c => c.Word.ToLower() == text);
             Translations.RemoveAt(index);
         }
+
+        internal void Sort()
+        {
+            Translations = Translations.OrderBy(s => s.Word).ToList();
+        }
     }
 }
