@@ -10,28 +10,28 @@ namespace Translator
     {
         public List<string> Options { get; set; }
         public DateTime TranslationDate { get; set; }
-        private string text;
-        public string Text {
+        private string word;
+        public string Word {
             get
             {
-                return text;
+                return word;
             }
             set
             {
-                text = value;
+                word = value;
                 Options = Translate();
             }
         }
         public Translation(string text)
         {
-            Text = text;
+            Word = text;
             Options = Translate();
         }
 
         private List<string> Translate()
         {
             TranslationDate = DateTime.Now;
-            return Translator.Translate(text);
+            return Translator.Translate(word);
         }
 
         public override string ToString()

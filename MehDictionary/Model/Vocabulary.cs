@@ -11,20 +11,29 @@ namespace MehDictionary.Model
     {
         public List<Translation> Translations { get; private set; }
 
-        public int Count { get { return Translations.Count;} }
-
         public Vocabulary()
         {
             Translations = new List<Translation>();
         }
+
+        public Vocabulary(string filepath)
+        {
+            Translations = Serialization.LoadTranslations(filepath);
+        }
+        
+        public Vocabulary(List<Translation> translations)
+        {
+            Translations = translations;
+        }
         public void Add(string text)
         {
-            Translations.Add( new Translation(text));
+                Translations.Add(new Translation(text));
         }
 
         public void Remove(string text)
         {
-            Translations.RemoveAll(s => s.Text == text);
+            var index = Translations.FindLastIndex(c => c.Word.ToLower() == text);
+            Translations.RemoveAt(index);
         }
     }
 }

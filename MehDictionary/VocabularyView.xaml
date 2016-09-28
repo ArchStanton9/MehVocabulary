@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:local="clr-namespace:MehDictionary.ViewModel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:util="clr-namespace:MehDictionary.Util"
@@ -11,8 +12,13 @@
     ResizeMode="CanResizeWithGrip"
     mc:Ignorable="d" Width="350">
     <Window.DataContext>
-        <local:VocabularyViewModel />
+        <local:VocabularyViewModel/>
     </Window.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingComand}" CommandParameter="{Binding}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -30,6 +36,12 @@
                     Margin="10,10,10,10"
                     Command="{Binding AddClick}"
                     Content="Добавить" />
+                <Button
+                    x:Name="Export"
+                    Margin="0,10,10,10"
+                    Command="{Binding Export}"
+                    Content="Экспорт PDF"
+                    />
             </StackPanel>
             <Grid>
                 <ListView util:GridViewSort.AutoSort="True" Margin="10,10,10,10" ItemsSource="{Binding Items}" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -38,15 +50,15 @@
                             <MenuItem Header="Edit"/>
                             <MenuItem Header="Delete"
                                       Command="{Binding RemoveItem}"
-                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.Text}"/>
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.Word}"/>
                         </ContextMenu>
                     </ListView.ContextMenu>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn
-                                util:GridViewSort.PropertyName="Text"
+                                util:GridViewSort.PropertyName="Word"
                                 Width="100"
-                                DisplayMemberBinding="{Binding Text}"
+                                DisplayMemberBinding="{Binding Word}"
                                 Header="Слово" />
                             <GridViewColumn
                                 util:GridViewSort.PropertyName="Options[0]"

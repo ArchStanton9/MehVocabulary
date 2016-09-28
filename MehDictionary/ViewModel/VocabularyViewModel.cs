@@ -6,18 +6,18 @@ using System.Windows.Data;
 using MehDictionary.Model;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using System.IO;
 
 namespace MehDictionary.ViewModel
 {
     class VocabularyViewModel : DependencyObject
     {
-        Vocabulary data = new Vocabulary();
+        static FileInfo path = new FileInfo("Data\\Vocabulary.json");
+        Vocabulary data;
 
         public VocabularyViewModel()
         {
-            data.Add("gun");
-            data.Add("tool");
-
+            data = new Vocabulary(path.ToString());
             Items = CollectionViewSource.GetDefaultView(data.Translations);
         }
 
@@ -63,6 +63,7 @@ namespace MehDictionary.ViewModel
 
         #region RemoveCommand
         private ICommand removeItem;
+
         public ICommand RemoveItem
         {
             get { return removeItem ?? (removeItem = new RelayCommand<string>(p => RemoveItemCommand(p) )); }
@@ -77,6 +78,38 @@ namespace MehDictionary.ViewModel
             }
                 
         }
+        #endregion
+
+        #region ClosingCommand
+        private ICommand closingCommand;
+
+        public ICommand ClosingComand
+        {
+            get { return closingCommand ?? (closingCommand = new RelayCommand(SaveTranslations)); }
+        }
+
+        private void SaveTranslations()
+        {
+            if (!Directory.Exists("Data"))
+                Directory.CreateDirectory("Data");
+
+            Serialization.WriteTranslaionsToFile(data.Translations, path.ToString());
+        }
+        #endregion
+
+        #region ExportPDF
+        private ICommand export;
+
+        public ICommand Export
+        {
+            get { return export ?? (export = new RelayCommand(SaveFile)); }
+        }
+
+        void SaveFile()
+        {
+            PDFCreator.WritePDF(data.Translations, "HelloWorld.pdf");
+        }
+
         #endregion
     }
 }
