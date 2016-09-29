@@ -71,9 +71,9 @@
                                 DisplayMemberBinding="{Binding Word}"
                                 Header="Слово" />
                         <GridViewColumn
-                                util:GridViewSort.PropertyName="Options[0]"
+                                util:GridViewSort.PropertyName="Translation"
                                 Width="100"
-                                DisplayMemberBinding="{Binding Options[0]}"
+                                DisplayMemberBinding="{Binding Translation}"
                                 Header="Перевод"
                                 />
                         <GridViewColumn

@@ -11,15 +11,15 @@ namespace MehDictionary.Model
 {
     static class Serialization
     {
-        public static List<Translation> LoadTranslations(string filepath)
+        public static List<Note> LoadTranslations(string filepath)
         {
             string json;
-            var translations = new List<Translation> ();
+            var translations = new List<Note> ();
 
             try
             {
                 json = File.ReadAllText(filepath);
-                translations = JsonConvert.DeserializeObject<List<Translation>>(json);
+                translations = JsonConvert.DeserializeObject<List<Note>>(json);
             }
             catch (FileNotFoundException)
             {
@@ -32,7 +32,7 @@ namespace MehDictionary.Model
             return translations;
         }
 
-        public static void WriteTranslaionsToFile(List<Translation> translations, string filepath)
+        public static void WriteTranslaionsToFile(List<Note> translations, string filepath)
         {
             var content = JsonConvert.SerializeObject(translations);
             File.WriteAllText(filepath, content);

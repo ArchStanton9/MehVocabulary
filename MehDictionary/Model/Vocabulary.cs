@@ -7,38 +7,35 @@ using Translator;
 
 namespace MehDictionary.Model
 {
-    public class Vocabulary
+    public class Notebook
     {
-        public List<Translation> Translations { get; private set; }
+        public List<Note> Notes { get; private set; }
 
-        public Vocabulary()
+        public Notebook()
         {
-            Translations = new List<Translation>();
+            Notes = new List<Note>();
         }
 
-        public Vocabulary(string filepath)
+        public Notebook(string filepath)
         {
-            Translations = Serialization.LoadTranslations(filepath);
+            Notes = Serialization.LoadTranslations(filepath);
         }
         
-        public Vocabulary(List<Translation> translations)
-        {
-            Translations = translations;
-        }
+
         public void Add(string text)
         {
-                Translations.Add(new Translation(text));
+            Notes.Add(new Note(text));
         }
 
         public void Remove(string text)
         {
-            var index = Translations.FindLastIndex(c => c.Word.ToLower() == text);
-            Translations.RemoveAt(index);
+            var index = Notes.FindLastIndex(c => c.Word.ToLower() == text);
+            Notes.RemoveAt(index);
         }
 
         internal void Sort()
         {
-            Translations = Translations.OrderBy(s => s.Word).ToList();
+            Notes = Notes.OrderBy(s => s.Word).ToList();
         }
     }
 }

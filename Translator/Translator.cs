@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
@@ -11,30 +8,29 @@ namespace Translator
 {
     public static class Translator
     {
-        const string Url = @"https://translate.yandex.net/api/v1.5/tr.json/translate";
-        const string API = @"trnsl.1.1.20160927T120711Z.21c65837ecdf2d78.e211814496163733422a95adaa7b1bad3732e0d0";
+        const string Url = @"https://dictionary.yandex.net/api/v1/dicservice.json/lookup";
+        const string API = @"dict.1.1.20160929T082251Z.dc28350833a39062.9f1ce8b2c4096da83566ded93889d85da995b675";
+        const string lang = "en-ru";
 
-        struct JsonAnswer
+        static void Main(string[] args)
         {
-            public int Code { get; set; }
-            public string Lang { get; set; }
-            public List<string> Text { get; set; }
+            var test = new Note("gun");
         }
 
-        public static List<string> Translate(string text, string lang)
+        public static List<Defenition> Translate(string text)
         {
-            var requestResult = TranslationWebRequest(text, lang);
-            var answer = JsonConvert.DeserializeObject<JsonAnswer>(requestResult);
-            return answer.Text;
+            var requestResult = DictionaryWebRequest(text, lang);
+            Response result = JsonConvert.DeserializeObject<Response>(requestResult);
+            return result.Content;
+        }
+        struct Response
+        {
+            [JsonProperty("def")]
+            public List<Defenition> Content { get; set; }
         }
 
-        public static List<string> Translate(string text)
-        {
-            string lang = "en-ru";
-            return Translate(text, lang);
-        }
 
-        private static string TranslationWebRequest(string text, string lang)
+        public static string DictionaryWebRequest(string text, string lang)
         {
             WebRequest req = WebRequest.Create(Url + "?key=" + API + "&text=" + text + "&lang=" + lang);
             WebResponse resp = req.GetResponse();

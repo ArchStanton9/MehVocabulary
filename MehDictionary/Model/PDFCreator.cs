@@ -8,7 +8,7 @@ namespace MehDictionary.Model
 {
     static class PDFCreator
     {
-        public static void WritePDF(List<Translation> list, string filename)
+        public static void WritePDF(List<Note> list, string filename)
         {
             // Create a new PDF document
             PdfDocument document = new PdfDocument();
@@ -27,7 +27,7 @@ namespace MehDictionary.Model
             // Draw the text
             for (int i = 0; i < list.Count; i++)
             {
-                gfx.DrawString(list[i].Word + " - " + list[i].Options[0], font, XBrushes.Black, new XRect(10, 10 + 10 * i, page.Width, page.Height), XStringFormats.TopLeft);
+                gfx.DrawString(list[i].Word + " - " + list[i].Translation, font, XBrushes.Black, new XRect(10, 10 + 10 * i, page.Width, page.Height), XStringFormats.TopLeft);
             }
             // Save the document...
             document.Save(filename);

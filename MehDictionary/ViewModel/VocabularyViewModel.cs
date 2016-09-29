@@ -13,12 +13,12 @@ namespace MehDictionary.ViewModel
     class VocabularyViewModel : DependencyObject
     {
         static FileInfo path = new FileInfo("Data\\Vocabulary.json");
-        Vocabulary data;
+        Notebook data;
 
         public VocabularyViewModel()
         {
-            data = new Vocabulary(path.ToString());
-            Items = CollectionViewSource.GetDefaultView(data.Translations);
+            data = new Notebook(path.ToString());
+            Items = CollectionViewSource.GetDefaultView(data.Notes);
         }
 
         #region DependecyProperty
@@ -93,7 +93,7 @@ namespace MehDictionary.ViewModel
             if (!Directory.Exists("Data"))
                 Directory.CreateDirectory("Data");
 
-            Serialization.WriteTranslaionsToFile(data.Translations, path.ToString());
+            Serialization.WriteTranslaionsToFile(data.Notes, path.ToString());
         }
         #endregion
 
@@ -108,7 +108,7 @@ namespace MehDictionary.ViewModel
         void SaveFile()
         {
             data.Sort();
-            PDFCreator.WritePDF(data.Translations, "Тысячи.pdf");
+            PDFCreator.WritePDF(data.Notes, "Тысячи.pdf");
         }
 
         #endregion
