@@ -7,74 +7,83 @@
     xmlns:local="clr-namespace:MehDictionary.ViewModel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:util="clr-namespace:MehDictionary.Util"
-    Title="VocabularyView"
+    Title="Vocabulary"
     Height="480"
-    ResizeMode="CanResizeWithGrip"
-    mc:Ignorable="d" Width="350">
+    mc:Ignorable="d" Width="360" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
     <Window.DataContext>
         <local:VocabularyViewModel/>
     </Window.DataContext>
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding ClosingComand}" CommandParameter="{Binding}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBox
+
+    <Grid Grid.IsSharedSizeScope="True">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBox
                     x:Name="main_text_box"
                     Width="150"
                     Height="20"
                     Margin="10,10,10,10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    
                     Text="{Binding NewWord}" />
-                <Button
+            <Button
                     x:Name="add_button"
                     Margin="10,10,10,10"
                     Command="{Binding AddClick}"
                     Content="Добавить" />
-                <Button
+            <Button
                     x:Name="Export"
                     Margin="0,10,10,10"
                     Command="{Binding Export}"
                     Content="Экспорт PDF"
                     />
-            </StackPanel>
-            <Grid>
-                <ListView util:GridViewSort.AutoSort="True" Margin="10,10,10,10" ItemsSource="{Binding Items}" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <ListView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Edit"/>
-                            <MenuItem Header="Delete"
+        </StackPanel>
+
+        <Grid Grid.Row="1" ScrollViewer.CanContentScroll="True">
+            <ListView util:GridViewSort.AutoSort="True" Margin="10,0,22,0" ItemsSource="{Binding Items}" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.IsSharedSizeScope="True" >
+
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Edit"/>
+                        <MenuItem Header="Delete"
                                       Command="{Binding RemoveItem}"
                                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.Word}"/>
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn
+                    </ContextMenu>
+                </ListView.ContextMenu>
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn
                                 util:GridViewSort.PropertyName="Word"
                                 Width="100"
                                 DisplayMemberBinding="{Binding Word}"
                                 Header="Слово" />
-                            <GridViewColumn
+                        <GridViewColumn
                                 util:GridViewSort.PropertyName="Options[0]"
                                 Width="100"
                                 DisplayMemberBinding="{Binding Options[0]}"
                                 Header="Перевод"
                                 />
-                            <GridViewColumn
+                        <GridViewColumn
                                 util:GridViewSort.PropertyName="TranslationDate"
                                 Width="100"
                                 DisplayMemberBinding="{Binding TranslationDate}"
                                 Header="Дата добавления" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
-        </StackPanel>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Grid>
 </Window>
