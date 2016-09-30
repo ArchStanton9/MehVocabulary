@@ -56,17 +56,27 @@ namespace MehDictionary.ViewModel
 
         private void AddItem()
         {
-            if (NewWord != null && NewWord.Length != 0)
+            try
             {
-                data.Add(NewWord.ToLower());
-                Items.Refresh();
+                if (NewWord != null && NewWord.Length != 0)
+                {
+                    data.Add(NewWord.ToLower());
+                    Items.Refresh();
+                }
+
+                NewWord = null;
+            }
+            catch (Exception e)
+            {
+                SaveTranslations();
+                MessageBox.Show(e.Message);
             }
 
-            NewWord = null;
+            
         }
         #endregion
 
-        #region EditCommand
+        #region InfoCommand
 
         private ICommand info;
         public ICommand Info
@@ -76,7 +86,16 @@ namespace MehDictionary.ViewModel
 
         void NoteInfo(int id)
         {
-            MessageBox.Show(data.GetFullInfo(id));
+            try
+            {
+                MessageBox.Show(data.GetFullInfo(id));
+            }
+            catch (Exception e)
+            {
+                SaveTranslations();
+                MessageBox.Show(e.Message);
+            }
+            
         }
         #endregion
 
@@ -90,12 +109,20 @@ namespace MehDictionary.ViewModel
 
         private void RemoveItemCommand(int? itemID)
         {
-            if (itemID != null)
+            try
             {
-                data.Remove(itemID.Value);
-                Items.Refresh();
+                if (itemID != null)
+                {
+                    data.Remove(itemID.Value);
+                    Items.Refresh();
+                }
             }
-                
+            catch (Exception e)
+            {
+                SaveTranslations();
+                MessageBox.Show(e.Message);
+            }
+            
         }
         #endregion
 
@@ -109,7 +136,15 @@ namespace MehDictionary.ViewModel
 
         private void SaveTranslations()
         {
-            Serialization.WriteTranslaionsToFile(data, path.ToString());
+            try
+            {
+                Serialization.WriteTranslaionsToFile(data, path.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            
         }
         #endregion
 
@@ -127,9 +162,11 @@ namespace MehDictionary.ViewModel
             try
             {
                 PDFCreator.WritePDF(data.Notes, "Тысячи.pdf");
+                MessageBox.Show("Файл \"Тысячи.pdf\" сохранен на рабочем столе");
             }
-            catch (IOException e)
+            catch (Exception e)
             {
+                SaveTranslations();
                 MessageBox.Show(e.Message);
             }
         }
