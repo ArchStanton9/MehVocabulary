@@ -9,10 +9,11 @@ using GalaSoft.MvvmLight.Command;
 using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight;
 
 namespace MehDictionary.ViewModel
 {
-    class VocabularyViewModel : DependencyObject
+    class VocabularyViewModel : ViewModelBase
     {
         static FileInfo path = new FileInfo("Data\\Vocabulary.json");
         Notebook data;
@@ -25,35 +26,28 @@ namespace MehDictionary.ViewModel
         }
 
         #region DependecyProperty
+        private ICollectionView items;
+
         public ICollectionView Items
         {
-            get { return (ICollectionView)GetValue(ItemsProperty); }
-            set { SetValue(ItemsProperty, value); }
+            get { return items; }
+            set
+            {
+                items = value;
+                RaisePropertyChanged("Items");
+            }
         }
 
-        // Using a DependencyProperty as the backing store for Items.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemsProperty =
-            DependencyProperty.Register("Items", typeof(ICollectionView), typeof(VocabularyViewModel), new PropertyMetadata(null));
+
+        private string newWord;
 
         public string NewWord
         {
-            get { return (string)GetValue(NewWordProperty); }
-            set { SetValue(NewWordProperty, value); }
+            get { return newWord; }
+            set { newWord = value; }
         }
 
-        // Using a DependencyProperty as the backing store for NewWord.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NewWordProperty =
-            DependencyProperty.Register("NewWord", typeof(string), typeof(VocabularyViewModel), new PropertyMetadata(null));
 
-        public ICollectionView Options
-        {
-            get { return (ICollectionView)GetValue(OptionsProperty); }
-            set { SetValue(OptionsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Items.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty OptionsProperty =
-            DependencyProperty.Register("Options", typeof(ICollectionView), typeof(VocabularyViewModel), new PropertyMetadata(null));
         #endregion
 
         #region AddCommand
@@ -91,7 +85,6 @@ namespace MehDictionary.ViewModel
             List<string> options = element.Defenitions[0].Translations
                 .Select(s => s.Text)
                 .ToList();
-            Options = CollectionViewSource.GetDefaultView(options);
         }
         #endregion
 
