@@ -114,6 +114,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\PDFHelper.cs" />
     <Compile Include="Model\PDFCreator.cs" />
     <Compile Include="Model\Serialization.cs" />
     <Compile Include="ViewModel\VocabularyViewModel.cs" />

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Translator;
 using PdfSharp.Pdf;
 using System.Text;
-using PdfSharp.Drawing;
+using MehDictionary.Helpers;
 using System.IO;
+using System.Linq;
 
 namespace MehDictionary.Model
 {
@@ -12,56 +13,34 @@ namespace MehDictionary.Model
     {
         public static void WritePDF(List<Note> list, string filename)
         {
-            const int height = 800;
-            const int step = 10;
-            const int fontSize = 11;
-            const string fontFamilyName = "Calibri";
-
             // Create a new PDF document
             PdfDocument document = new PdfDocument();
 
-            // Create an empty page
-            PdfPage page = document.AddPage();
+            var dictionary = list
+                .GroupBy(w => w.Word[0])
+                .ToDictionary(g => g.Key, g => g.ToList());
 
-            // Get an XGraphics object for drawing
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-
-            // Font option to make it Unicode
-            XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
-            // Create a font
-            XFont font = new XFont(fontFamilyName, fontSize, XFontStyle.Regular, options);
-
-            int x = 0;
-            // Draw the text
-            for (int i = 0; i < list.Count; i++)
+            foreach (var group in dictionary)
             {
-                StringBuilder sb = new StringBuilder();
+                document.AddLine(group.Key.ToString());
 
-                string ts = list[i].Transcription;
-                if (ts != null)
-                    sb.Append("   [" + ts + "]     ");
-
-                foreach (var item in list[i].Defenitions)
+                foreach (var note in group.Value)
                 {
-                    sb.Append(item.Translations[0].Text + ", ");
-                }
+                    var sb = new StringBuilder();
 
-                if (sb.Length > 2)
-                {
-                    sb.Remove(sb.Length - 2, 2);
-                }
+                    sb.Append(note.Word);
 
-                var s = string.Format("{0}   -    {1}", list[i].Word, sb.ToString());
+                    if (note.Transcription != null)
+                        sb.Append(note.Translation);
 
-                x += step;
-                gfx.DrawString(s, font, XBrushes.Black, new XRect(10, x, page.Width, page.Height), XStringFormats.TopLeft);
-                if (x == height)
-                {
-                    page = document.AddPage();
-                    gfx = XGraphics.FromPdfPage(page);
-                    x = 0;
+                    string translation = note.Defenitions
+                        .SelectMany(d => d.Translations)
+                        .;
+
                 }
             }
+
+
             // Save the document...
 
             var desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
@@ -69,7 +48,5 @@ namespace MehDictionary.Model
             
             document.Save(fullFileName);
         }
-
-        
     }
 }
