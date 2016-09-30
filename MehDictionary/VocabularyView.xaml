@@ -56,9 +56,9 @@
             <ListView util:GridViewSort.AutoSort="True" Margin="10,0,22,0" ItemsSource="{Binding Items}" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.IsSharedSizeScope="True">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Edit"
-                                  Command="{Binding Edit}"
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.ID}"/>
+                        <MenuItem Header="Info"
+                                      Command="{Binding Info}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.ID}"/>
                         <MenuItem Header="Delete"
                                       Command="{Binding RemoveItem}"
                                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.ID}"/>
