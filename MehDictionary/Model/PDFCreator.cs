@@ -4,6 +4,7 @@ using Translator;
 using PdfSharp.Pdf;
 using System.Text;
 using PdfSharp.Drawing;
+using System.IO;
 
 namespace MehDictionary.Model
 {
@@ -50,17 +51,20 @@ namespace MehDictionary.Model
                 var s = string.Format("{0}   -    {1}", list[i].Word, sb.ToString());
 
                 x += 10;
-                gfx.DrawString(s, font, XBrushes.Black, new XRect(10, 10 + x, page.Width, page.Height), XStringFormats.TopLeft);
-                if (x == 820)
+                gfx.DrawString(s, font, XBrushes.Black, new XRect(10, x, page.Width, page.Height), XStringFormats.TopLeft);
+                if (x == 800)
                 {
                     page = document.AddPage();
                     gfx = XGraphics.FromPdfPage(page);
                     x = 0;
                 }
-
             }
             // Save the document...
-            document.Save(filename);
+
+            var desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            var fullFileName = Path.Combine(desktopFolder, filename);
+            
+            document.Save(fullFileName);
         }
 
         

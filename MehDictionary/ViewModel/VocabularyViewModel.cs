@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
@@ -7,8 +6,6 @@ using MehDictionary.Model;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using System.IO;
-using System.Linq;
-using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 
 namespace MehDictionary.ViewModel
@@ -17,7 +14,6 @@ namespace MehDictionary.ViewModel
     {
         static FileInfo path = new FileInfo("Data\\Vocabulary.json");
         Notebook data;
-
 
         public VocabularyViewModel()
         {
@@ -75,18 +71,12 @@ namespace MehDictionary.ViewModel
         private ICommand edit;
         public ICommand Edit
         {
-            get { return edit ?? (edit = new RelayCommand(ShowOptions)); }
+            get { return edit ?? (edit = new RelayCommand(EditNote)); }
         }
 
-        void ShowOptions()
+        void EditNote()
         {
-            string[] lines = File.ReadAllLines(@"C:\Users\koshheev_na\Desktop\sample.txt");
-            var stack = lines.Select(s => s.Split('\t')[1]).ToArray();
-            foreach (var item in stack)
-            {
-                //data.Add(item);
-
-            }
+            throw new NotImplementedException();
         }
         #endregion
 
