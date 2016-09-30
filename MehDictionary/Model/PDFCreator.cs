@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Translator;
 using PdfSharp.Pdf;
+using System.Text;
 using PdfSharp.Drawing;
 
 namespace MehDictionary.Model
@@ -10,6 +11,8 @@ namespace MehDictionary.Model
     {
         public static void WritePDF(List<Note> list, string filename)
         {
+            const int Height = 830;
+
             // Create a new PDF document
             PdfDocument document = new PdfDocument();
 
@@ -24,10 +27,37 @@ namespace MehDictionary.Model
             // Create a font
             XFont font = new XFont("Calibri", 11, XFontStyle.Regular, options);
 
+            int x = 0;
             // Draw the text
             for (int i = 0; i < list.Count; i++)
             {
-                gfx.DrawString(list[i].Word + " - " + list[i].Translation, font, XBrushes.Black, new XRect(10, 10 + 10 * i, page.Width, page.Height), XStringFormats.TopLeft);
+                StringBuilder sb = new StringBuilder();
+
+                string ts = list[i].Transcription;
+                if (ts != null)
+                    sb.Append("   [" + ts + "]     ");
+
+                foreach (var item in list[i].Defenitions)
+                {
+                    sb.Append(item.Translations[0].Text + ", ");
+                }
+
+                if (sb.Length > 2)
+                {
+                    sb.Remove(sb.Length - 2, 2);
+                }
+
+                var s = string.Format("{0}   -    {1}", list[i].Word, sb.ToString());
+
+                x += 10;
+                gfx.DrawString(s, font, XBrushes.Black, new XRect(10, 10 + x, page.Width, page.Height), XStringFormats.TopLeft);
+                if (x == 820)
+                {
+                    page = document.AddPage();
+                    gfx = XGraphics.FromPdfPage(page);
+                    x = 0;
+                }
+
             }
             // Save the document...
             document.Save(filename);

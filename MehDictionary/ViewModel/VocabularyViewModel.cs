@@ -75,16 +75,18 @@ namespace MehDictionary.ViewModel
         private ICommand edit;
         public ICommand Edit
         {
-            get { return edit ?? (edit = new RelayCommand<int>(i => ShowOptions(i))); }
+            get { return edit ?? (edit = new RelayCommand(ShowOptions)); }
         }
 
-        void ShowOptions(int ID)
+        void ShowOptions()
         {
-            var element = data.Notes
-                .Find(c => c.ID == ID);
-            List<string> options = element.Defenitions[0].Translations
-                .Select(s => s.Text)
-                .ToList();
+            string[] lines = File.ReadAllLines(@"C:\Users\koshheev_na\Desktop\sample.txt");
+            var stack = lines.Select(s => s.Split('\t')[1]).ToArray();
+            foreach (var item in stack)
+            {
+                //data.Add(item);
+
+            }
         }
         #endregion
 
@@ -132,7 +134,14 @@ namespace MehDictionary.ViewModel
         void SaveFile()
         {
             data.Sort();
-            PDFCreator.WritePDF(data.Notes, "Тысячи.pdf");
+            try
+            {
+                PDFCreator.WritePDF(data.Notes, "Тысячи.pdf");
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         #endregion
