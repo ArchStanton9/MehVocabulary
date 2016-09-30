@@ -20,7 +20,7 @@ namespace MehDictionary.ViewModel
 
         public VocabularyViewModel()
         {
-            data = new Notebook(path.ToString());
+            data = Serialization.LoadNotebook(path.ToString());
             Items = CollectionViewSource.GetDefaultView(data.Notes);
         }
 
@@ -124,10 +124,7 @@ namespace MehDictionary.ViewModel
 
         private void SaveTranslations()
         {
-            if (!Directory.Exists("Data"))
-                Directory.CreateDirectory("Data");
-
-            Serialization.WriteTranslaionsToFile(data.Notes, path.ToString());
+            Serialization.WriteTranslaionsToFile(data, path.ToString());
         }
         #endregion
 

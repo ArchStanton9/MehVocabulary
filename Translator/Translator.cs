@@ -12,11 +12,6 @@ namespace Translator
         const string API = @"dict.1.1.20160929T082251Z.dc28350833a39062.9f1ce8b2c4096da83566ded93889d85da995b675";
         const string lang = "en-ru";
 
-        static void Main(string[] args)
-        {
-            var test = new Note("gun");
-        }
-
         public static List<Defenition> Translate(string text)
         {
             var requestResult = DictionaryWebRequest(text, lang);

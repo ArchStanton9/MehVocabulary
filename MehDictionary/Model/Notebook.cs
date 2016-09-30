@@ -15,11 +15,6 @@ namespace MehDictionary.Model
         {
             Notes = new List<Note>();
         }
-
-        public Notebook(string filepath)
-        {
-            Notes = Serialization.LoadTranslations(filepath);
-        }
         
 
         public void Add(string text)

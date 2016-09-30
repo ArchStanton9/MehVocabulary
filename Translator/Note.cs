@@ -7,10 +7,14 @@ namespace Translator
     public class Note
     {
         public string Word { get; set; }
+        [JsonProperty("id")]
         public int ID { get; private set; }
         public string Translation { get; set; }
+        [JsonProperty("ts")]
         public string Transcription { get; set; }
+        [JsonProperty("def")]
         public List<Defenition> Defenitions { get; private set; }
+        [JsonProperty("date")]
         public DateTime TranslationDate { get; private set; }
 
         public Note(string word)
@@ -18,7 +22,8 @@ namespace Translator
             ID = GetHashCode();
             TranslationDate = DateTime.Now;
             Word = word;
-            Defenitions = Translator.Translate(word);
+            if (Defenitions == null)
+                Defenitions = Translator.Translate(word);
             if (Defenitions?.Count != 0)
             {
                 Translation = Defenitions[0].Translations[0].Text;
@@ -26,6 +31,10 @@ namespace Translator
             }
             else
                 Translation = word;
+        }
+
+        public Note()
+        {
         }
     }
 
