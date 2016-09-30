@@ -68,15 +68,15 @@ namespace MehDictionary.ViewModel
 
         #region EditCommand
 
-        private ICommand edit;
-        public ICommand Edit
+        private ICommand info;
+        public ICommand Info
         {
-            get { return edit ?? (edit = new RelayCommand(EditNote)); }
+            get { return info ?? (info = new RelayCommand<int>(c => NoteInfo(c))); }
         }
 
-        void EditNote()
+        void NoteInfo(int id)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(data.GetFullInfo(id));
         }
         #endregion
 

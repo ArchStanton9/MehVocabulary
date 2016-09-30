@@ -12,7 +12,10 @@ namespace MehDictionary.Model
     {
         public static void WritePDF(List<Note> list, string filename)
         {
-            const int Height = 830;
+            const int height = 800;
+            const int step = 10;
+            const int fontSize = 11;
+            const string fontFamilyName = "Calibri";
 
             // Create a new PDF document
             PdfDocument document = new PdfDocument();
@@ -26,7 +29,7 @@ namespace MehDictionary.Model
             // Font option to make it Unicode
             XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
             // Create a font
-            XFont font = new XFont("Calibri", 11, XFontStyle.Regular, options);
+            XFont font = new XFont(fontFamilyName, fontSize, XFontStyle.Regular, options);
 
             int x = 0;
             // Draw the text
@@ -50,9 +53,9 @@ namespace MehDictionary.Model
 
                 var s = string.Format("{0}   -    {1}", list[i].Word, sb.ToString());
 
-                x += 10;
+                x += step;
                 gfx.DrawString(s, font, XBrushes.Black, new XRect(10, x, page.Width, page.Height), XStringFormats.TopLeft);
-                if (x == 800)
+                if (x == height)
                 {
                     page = document.AddPage();
                     gfx = XGraphics.FromPdfPage(page);
