@@ -7,6 +7,8 @@ using MehDictionary.Model;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using System.IO;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace MehDictionary.ViewModel
 {
@@ -14,6 +16,7 @@ namespace MehDictionary.ViewModel
     {
         static FileInfo path = new FileInfo("Data\\Vocabulary.json");
         Notebook data;
+
 
         public VocabularyViewModel()
         {
@@ -41,6 +44,16 @@ namespace MehDictionary.ViewModel
         // Using a DependencyProperty as the backing store for NewWord.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NewWordProperty =
             DependencyProperty.Register("NewWord", typeof(string), typeof(VocabularyViewModel), new PropertyMetadata(null));
+
+        public ICollectionView Options
+        {
+            get { return (ICollectionView)GetValue(OptionsProperty); }
+            set { SetValue(OptionsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Items.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty OptionsProperty =
+            DependencyProperty.Register("Options", typeof(ICollectionView), typeof(VocabularyViewModel), new PropertyMetadata(null));
         #endregion
 
         #region AddCommand
@@ -53,11 +66,32 @@ namespace MehDictionary.ViewModel
 
         private void AddItem()
         {
-            if (NewWord != null && NewWord.Length != 0 )
+            if (NewWord != null && NewWord.Length != 0)
             {
                 data.Add(NewWord.ToLower());
                 Items.Refresh();
             }
+
+            NewWord = null;
+        }
+        #endregion
+
+        #region EditCommand
+
+        private ICommand edit;
+        public ICommand Edit
+        {
+            get { return edit ?? (edit = new RelayCommand<int>(i => ShowOptions(i))); }
+        }
+
+        void ShowOptions(int ID)
+        {
+            var element = data.Notes
+                .Find(c => c.ID == ID);
+            List<string> options = element.Defenitions[0].Translations
+                .Select(s => s.Text)
+                .ToList();
+            Options = CollectionViewSource.GetDefaultView(options);
         }
         #endregion
 
@@ -66,14 +100,14 @@ namespace MehDictionary.ViewModel
 
         public ICommand RemoveItem
         {
-            get { return removeItem ?? (removeItem = new RelayCommand<string>(p => RemoveItemCommand(p) )); }
+            get { return removeItem ?? (removeItem = new RelayCommand<int>(p => RemoveItemCommand(p) )); }
         }
 
-        private void RemoveItemCommand(string item)
+        private void RemoveItemCommand(int? itemID)
         {
-            if (!string.IsNullOrEmpty(item))
+            if (itemID != null)
             {
-                data.Remove(item);
+                data.Remove(itemID.Value);
                 Items.Refresh();
             }
                 

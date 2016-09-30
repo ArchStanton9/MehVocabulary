@@ -27,10 +27,9 @@ namespace MehDictionary.Model
             Notes.Add(new Note(text));
         }
 
-        public void Remove(string text)
+        public void Remove(int itemID)
         {
-            var index = Notes.FindLastIndex(c => c.Word.ToLower() == text);
-            Notes.RemoveAt(index);
+            Notes.RemoveAll(c => c.ID == itemID);
         }
 
         internal void Sort()

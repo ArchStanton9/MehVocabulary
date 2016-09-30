@@ -5,11 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:local="clr-namespace:MehDictionary.ViewModel"
+    xmlns:mvvm="clr-namespace:GalaSoft.MvvmLight.Ioc;assembly=GalaSoft.MvvmLight.Extras"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:util="clr-namespace:MehDictionary.Util"
     Title="Vocabulary"
     Height="480"
-    mc:Ignorable="d" Width="360" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MinWidth="360" MinHeight="480">
+    mc:Ignorable="d" Width="360" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MinWidth="560" MinHeight="480">
 
     <Window.DataContext>
         <local:VocabularyViewModel/>
@@ -26,7 +27,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="20*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal">
@@ -52,14 +53,18 @@
         </StackPanel>
 
         <Grid Grid.Row="1" ScrollViewer.CanContentScroll="True">
-            <ListView util:GridViewSort.AutoSort="True" Margin="10,0,22,0" ItemsSource="{Binding Items}" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.IsSharedSizeScope="True" >
-
+            <ListView util:GridViewSort.AutoSort="True" Margin="10,0,22,0" ItemsSource="{Binding Items}" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.IsSharedSizeScope="True">
+                <ListView.ToolTip>
+                    <ListBox ItemsSource="{Binding Options}"/>
+                </ListView.ToolTip>
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Edit"/>
+                        <MenuItem Header="Edit"
+                                  Command="{Binding Edit}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.ID}"/>
                         <MenuItem Header="Delete"
                                       Command="{Binding RemoveItem}"
-                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.Word}"/>
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem.ID}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
 
@@ -77,6 +82,13 @@
                                 Header="Перевод"
                                 />
                         <GridViewColumn
+                                util:GridViewSort.PropertyName="Transcription"
+                                Width="100"
+                                DisplayMemberBinding="{Binding Transcription}"
+                                Header="Транскрипция"
+                                ToolTipService.ToolTip="{Binding Options}"
+                                />
+                        <GridViewColumn
                                 util:GridViewSort.PropertyName="TranslationDate"
                                 Width="100"
                                 DisplayMemberBinding="{Binding TranslationDate}"
@@ -84,6 +96,8 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+        </Grid>
+        <Grid Grid.Row="2">
         </Grid>
     </Grid>
 </Window>

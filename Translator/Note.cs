@@ -19,8 +19,13 @@ namespace Translator
             TranslationDate = DateTime.Now;
             Word = word;
             Defenitions = Translator.Translate(word);
-            Translation = Defenitions[0].Translations[0].Text;
-            Transcription = Defenitions[0].Transcription;
+            if (Defenitions?.Count != 0)
+            {
+                Translation = Defenitions[0].Translations[0].Text;
+                Transcription = Defenitions[0].Transcription;
+            }
+            else
+                Translation = word;
         }
     }
 
