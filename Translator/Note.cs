@@ -35,6 +35,7 @@ namespace Translator
 
         public Note()
         {
+            //default ctror for serialization
         }
     }
 

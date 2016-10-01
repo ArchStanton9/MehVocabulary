@@ -18,6 +18,7 @@ namespace MehDictionary.ViewModel
         public VocabularyViewModel()
         {
             data = Serialization.LoadNotebook(path.ToString());
+
             Items = CollectionViewSource.GetDefaultView(data.Notes);
         }
 
@@ -164,7 +165,7 @@ namespace MehDictionary.ViewModel
                 PDFCreator.WritePDF(data.Notes, "Тысячи.pdf");
                 MessageBox.Show("Файл \"Тысячи.pdf\" сохранен на рабочем столе");
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 SaveTranslations();
                 MessageBox.Show(e.Message);

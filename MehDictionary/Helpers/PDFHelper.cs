@@ -8,7 +8,7 @@ namespace MehDictionary.Helpers
         const int fontSize = 11;
         const string fontFamilyName = "Calibri";
         const int height = 800;
-        const int step = 10;
+        const int step = 11;
 
         static int carriage;
         static XPdfFontOptions options;
@@ -24,19 +24,31 @@ namespace MehDictionary.Helpers
 
         public static void AddLine(this PdfDocument document, string text)
         {
-            if (page == null)
-                page = document.AddPage();
+            if (page == null || carriage > height - 10)
+                NextPage(document);
 
-            if (carriage == height)
-            {
-                page = document.AddPage();
-                gfx = XGraphics.FromPdfPage(page);
-                carriage = 0;
-            }
-
-            gfx.DrawString(text, font, XBrushes.Black, new XRect(10, carriage, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString(text, font, XBrushes.Black, new XRect(10, 10 + carriage, page.Width, page.Height), XStringFormats.TopLeft);
 
             carriage += step;
+        }
+
+        public static void PrintHeader(this PdfDocument document, string text)
+        {
+            XFont headerFont = new XFont(fontFamilyName, fontSize + 2, XFontStyle.Bold, options);
+
+            if (page == null || height - carriage < 50)
+                NextPage(document);
+
+            gfx.DrawString(text, headerFont, XBrushes.Black, new XRect(10, 10 + carriage, page.Width, page.Height), XStringFormats.TopLeft);
+
+            carriage += step;
+        }
+
+        private static void NextPage(PdfDocument document)
+        {
+            page = document.AddPage();
+            gfx = XGraphics.FromPdfPage(page);
+            carriage = 0;
         }
     }
 }

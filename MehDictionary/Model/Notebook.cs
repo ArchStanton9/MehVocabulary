@@ -17,6 +17,7 @@ namespace MehDictionary.Model
 
         public void Add(string text)
         {
+            text = text.Substring(0, 1).ToUpper() + text.Remove(0, 1);
             Notes.Add(new Note(text));
         }
 

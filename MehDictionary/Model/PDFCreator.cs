@@ -17,27 +17,34 @@ namespace MehDictionary.Model
             PdfDocument document = new PdfDocument();
 
             var dictionary = list
-                .GroupBy(w => w.Word[0])
+                .GroupBy(w => w.Word[0].ToString().ToUpper())
                 .ToDictionary(g => g.Key, g => g.ToList());
 
             foreach (var group in dictionary)
             {
-                document.AddLine(group.Key.ToString());
+                document.PrintHeader(group.Key.ToString().ToUpper());
 
                 foreach (var note in group.Value)
                 {
                     var sb = new StringBuilder();
 
-                    sb.Append(note.Word);
+                    sb.AppendFormat("{0}     -     ", note.Word);
 
                     if (note.Transcription != null)
-                        sb.Append(note.Translation);
+                        sb.Append(" [ " + note.Transcription + " ] ");
 
-                    string translation = note.Defenitions
-                        .SelectMany(d => d.Translations)
-                        .;
+                    var translations = note.Defenitions
+                        .Select(d => d.Translations[0]);
 
+                    foreach (var tr in translations)
+                    {
+                        sb.Append(tr.Text + ", ");
+                    }
+
+                    document.AddLine(sb.ToString());
                 }
+
+                document.AddLine(" ");
             }
 
 
