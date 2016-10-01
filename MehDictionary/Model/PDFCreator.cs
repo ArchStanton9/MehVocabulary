@@ -34,12 +34,17 @@ namespace MehDictionary.Model
                         sb.Append(" [ " + note.Transcription + " ] ");
 
                     var translations = note.Defenitions
-                        .Select(d => d.Translations[0]);
+                        .SelectMany(d => d.Translations);
 
                     foreach (var tr in translations)
                     {
-                        sb.Append(tr.Text + ", ");
+                        if (sb.Length < 80)
+                            sb.Append(tr.Text + ", ");
                     }
+
+                    if (sb.Length > 2)
+                        sb.Remove(sb.Length - 2, 2);
+                    sb.Append(".");
 
                     document.AddLine(sb.ToString());
                 }
