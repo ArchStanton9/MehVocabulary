@@ -41,27 +41,41 @@ namespace MehDictionary.ViewModel
         public string NewWord
         {
             get { return newWord; }
-            set { newWord = value; }
+            set
+            {
+                newWord = value;
+                RaisePropertyChanged("NewWord");
+            }
         }
-
 
         #endregion
 
         #region AddCommand
-        private ICommand addClick;
+        private ICommand addWordClick;
 
-        public ICommand AddClick
+        public ICommand AddWordClick
         {
-            get { return addClick ?? (addClick = new RelayCommand(AddItem)); }
+            get { return addWordClick ?? (addWordClick = new RelayCommand(AddItem)); }
+        }
+
+        private ICommand addWord;
+
+        public ICommand AddWord
+        {
+            get { return addWord ?? (addWord = new RelayCommand<string>(s => AddItem(s))); }
         }
 
         private void AddItem()
         {
+            AddItem(NewWord);
+        }
+        private void AddItem(string word)
+        {
             try
             {
-                if (NewWord != null && NewWord.Length != 0)
+                if (word != null && word.Length != 0)
                 {
-                    data.Add(NewWord.ToLower());
+                    data.Add(word.ToLower());
                     Items.Refresh();
                 }
 
@@ -73,7 +87,6 @@ namespace MehDictionary.ViewModel
                 MessageBox.Show(e.Message);
             }
 
-            
         }
         #endregion
 

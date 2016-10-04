@@ -22,7 +22,6 @@
     </i:Interaction.Triggers>
 
     <Grid Grid.IsSharedSizeScope="True">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="20*"/>
@@ -37,11 +36,18 @@
                     Margin="10,10,10,10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Text="{Binding NewWord}" />
+                    Text="{Binding NewWord}">
+                <TextBox.InputBindings>
+                    <KeyBinding Gesture="Enter" 
+                        Command="{Binding AddWord}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}},Path=Text}" />
+                </TextBox.InputBindings>
+
+            </TextBox>
             <Button
                     x:Name="add_button"
                     Margin="10,10,10,10"
-                    Command="{Binding AddClick}"
+                    Command="{Binding AddWordClick}"
                     Content="Добавить" />
             <Button
                     x:Name="Export"
@@ -86,7 +92,7 @@
                                 />
                         <GridViewColumn
                                 util:GridViewSort.PropertyName="TranslationDate"
-                                Width="100"
+                                Width="115"
                                 DisplayMemberBinding="{Binding TranslationDate}"
                                 Header="Дата добавления" />
                     </GridView>

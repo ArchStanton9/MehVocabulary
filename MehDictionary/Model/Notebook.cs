@@ -84,7 +84,7 @@ namespace MehDictionary.Model
                 }
             }
 
-            if (info.Length < 500)
+            if (info.Length < 500 && examples.Length > 25)
                 info.Append(examples);
 
             return info.ToString();
