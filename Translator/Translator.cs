@@ -24,7 +24,7 @@ namespace Translator
             {
                 requestResult = DictionaryWebRequest(TrUrl, TrAPI, text);
                 var tr = JsonConvert.DeserializeObject<Response>(requestResult);
-                result.Content.Add(new Defenition() { Text = tr.Text[0], Pos="phrase", Translations = new List<Translation>() { new Translation() { Text = tr.Text[0]} } });
+                result.Content.Add(new Defenition() { Text = text, Pos="phrase", Translations = new List<Translation>() { new Translation() { Text = tr.Text[0]} } });
             }
             
             return result.Content;

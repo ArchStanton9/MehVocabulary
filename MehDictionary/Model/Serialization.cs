@@ -1,7 +1,7 @@
 ﻿using System.IO; 
 using Newtonsoft.Json;
 
-namespace MehDictionary.Model
+namespace MehVocabulary.Model
 {
     static class Serialization
     {

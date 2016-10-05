@@ -1,7 +1,7 @@
-﻿<Application x:Class="MehDictionary.App"
+﻿<Application x:Class="MehVocabulary.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MehDictionary"
+             xmlns:local="clr-namespace:MehVocabulary"
              StartupUri="VocabularyView.xaml">
     <Application.Resources>
          

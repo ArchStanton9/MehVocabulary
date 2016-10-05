@@ -21,7 +21,7 @@ namespace Translator
         {
             ID = GetHashCode();
             TranslationDate = DateTime.Now;
-            Word = word;
+            Word = word.ToLower();
             if (Defenitions == null)
                 Defenitions = Translator.Translate(word);
             if (Defenitions?.Count != 0)
@@ -30,7 +30,7 @@ namespace Translator
                 Transcription = Defenitions[0].Transcription;
             }
             else
-                Translation = word;
+                Translation = Word;
         }
 
         public Note()

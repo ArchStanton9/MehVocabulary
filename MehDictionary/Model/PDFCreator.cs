@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Translator;
 using PdfSharp.Pdf;
 using System.Text;
-using MehDictionary.Helpers;
+using MehVocabulary.Helpers;
 using System.IO;
 using System.Linq;
 
-namespace MehDictionary.Model
+namespace MehVocabulary.Model
 {
     static class PDFCreator
     {
@@ -28,7 +28,10 @@ namespace MehDictionary.Model
                 {
                     var sb = new StringBuilder();
 
-                    sb.AppendFormat("{0}     -     ", note.Word);
+                    var text = note.Word;
+                    text = text.Substring(0, 1).ToUpper() + text.Remove(0, 1);
+
+                    sb.AppendFormat("{0}     -     ", text);
 
                     if (note.Transcription != null)
                         sb.Append(" [ " + note.Transcription + " ] ");

@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Documents;
 
-namespace MehDictionary.Util
+namespace MehVocabulary.Util
 {
     public partial class GridViewSort
     {

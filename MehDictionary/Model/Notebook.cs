@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using Translator;
 
-namespace MehDictionary.Model
+namespace MehVocabulary.Model
 {
     public class Notebook
     {
@@ -17,7 +17,6 @@ namespace MehDictionary.Model
 
         public void Add(string text)
         {
-            text = text.Substring(0, 1).ToUpper() + text.Remove(0, 1);
             Notes.Add(new Note(text));
         }
 

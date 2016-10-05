@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MehDictionary.Properties
+namespace MehVocabulary.Properties
 {
 
 

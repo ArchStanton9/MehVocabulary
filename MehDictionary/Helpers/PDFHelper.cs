@@ -1,7 +1,7 @@
 ﻿using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 
-namespace MehDictionary.Helpers
+namespace MehVocabulary.Helpers
 {
     public static class PDFHelper
     {
@@ -13,6 +13,7 @@ namespace MehDictionary.Helpers
         static int carriage;
         static XPdfFontOptions options;
         static XFont font;
+        static XFont headerFont;
         static XGraphics gfx;
         static PdfPage page;
 
@@ -20,11 +21,12 @@ namespace MehDictionary.Helpers
         {
             options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
             font = new XFont(fontFamilyName, fontSize, XFontStyle.Regular, options);
+            headerFont = new XFont(fontFamilyName, fontSize + 2, XFontStyle.Bold, options);
         }
 
         public static void AddLine(this PdfDocument document, string text)
         {
-            if (page == null || carriage > height - 10)
+            if (page == null || height - carriage <  10)
                 NextPage(document);
 
             gfx.DrawString(text, font, XBrushes.Black, new XRect(10, 10 + carriage, page.Width, page.Height), XStringFormats.TopLeft);
@@ -34,8 +36,6 @@ namespace MehDictionary.Helpers
 
         public static void PrintHeader(this PdfDocument document, string text)
         {
-            XFont headerFont = new XFont(fontFamilyName, fontSize + 2, XFontStyle.Bold, options);
-
             if (page == null || height - carriage < 50)
                 NextPage(document);
 

@@ -2,13 +2,13 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
-using MehDictionary.Model;
+using MehVocabulary.Model;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using System.IO;
 using GalaSoft.MvvmLight;
 
-namespace MehDictionary.ViewModel
+namespace MehVocabulary.ViewModel
 {
     class VocabularyViewModel : ViewModelBase
     {
@@ -81,7 +81,7 @@ namespace MehDictionary.ViewModel
 
                 NewWord = null;
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 SaveTranslations();
                 MessageBox.Show(e.Message);

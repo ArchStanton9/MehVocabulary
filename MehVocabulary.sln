@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MehDictionary", "MehDictionary\MehDictionary.csproj", "{19A0F690-A421-4DF8-B60C-0FB4DDC37E28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MehVocabulary", "MehDictionary\MehVocabulary.csproj", "{19A0F690-A421-4DF8-B60C-0FB4DDC37E28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Translator", "Translator\Translator.csproj", "{388A58EA-E8C7-4164-ABA5-0B3E1AF829AF}"
 EndProject

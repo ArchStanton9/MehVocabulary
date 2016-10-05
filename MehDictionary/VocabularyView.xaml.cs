@@ -1,4 +1,4 @@
-﻿using MehDictionary.ViewModel;
+﻿using MehVocabulary.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MehDictionary
+namespace MehVocabulary
 {
     /// <summary>
     /// Логика взаимодействия для VocabularyView.xaml
