@@ -81,7 +81,7 @@ namespace MehDictionary.ViewModel
 
                 NewWord = null;
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 SaveTranslations();
                 MessageBox.Show(e.Message);

@@ -58,6 +58,10 @@ namespace MehDictionary.Model
                         info.Remove(info.Length - 1, 1);
                         info.Append(". \n");  
                     }
+                    else
+                    {
+                        info.Append("\n");
+                    }
 
                     if (word.Synonyms != null)
                     {
