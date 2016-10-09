@@ -73,14 +73,14 @@ namespace MehVocabulary.ViewModel
         {
             try
             {
-                word = word.ToLower();
+                var lowerWord = word.ToLower();
                 if (word != null && word.Length != 0)
                 {
-                    data.Add(word);
+                    data.Add(lowerWord);
                     Items.Refresh();
                 }
 
-                MessageBox.Show(data.GetFullInfo(word));
+                MessageBox.Show(data.GetFullInfo(lowerWord));
                 NewWord = null;
             }
             catch (Exception e)
