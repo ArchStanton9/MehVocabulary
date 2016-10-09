@@ -73,9 +73,10 @@ namespace MehVocabulary.ViewModel
         {
             try
             {
+                word = word.ToLower();
                 if (word != null && word.Length != 0)
                 {
-                    data.Add(word.ToLower());
+                    data.Add(word);
                     Items.Refresh();
                 }
 
