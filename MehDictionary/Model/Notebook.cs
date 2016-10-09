@@ -30,6 +30,12 @@ namespace MehVocabulary.Model
             Notes = Notes.OrderBy(s => s.Word).ToList();
         }
 
+        public string GetFullInfo(string word)
+        {
+            var id = Notes.Find(s => s.Word == word).ID;
+            return GetFullInfo(id);
+        }
+
         public string GetFullInfo(int id)
         {
             var info = new StringBuilder();

@@ -79,6 +79,7 @@ namespace MehVocabulary.ViewModel
                     Items.Refresh();
                 }
 
+                MessageBox.Show(data.GetFullInfo(word));
                 NewWord = null;
             }
             catch (Exception e)
